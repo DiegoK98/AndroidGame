@@ -16,6 +16,8 @@ public class ScaffoldActivity extends AppCompatActivity {
 
     private SoundManager soundManager;
 
+    public GameFragment gameFrag;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,8 @@ public class ScaffoldActivity extends AppCompatActivity {
 
     public void startGame() {
         // Navigate the the game fragment, which makes the start automatically
-        navigateToFragment( new GameFragment());
+        gameFrag = new GameFragment();
+        navigateToFragment(gameFrag);
     }
 
     private void navigateToFragment(BaseFragment dst) {

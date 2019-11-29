@@ -52,7 +52,7 @@ public class Bullet extends Sprite {
             Asteroid a = (Asteroid) otherObject;
             a.removeObject(gameEngine);
             gameEngine.onGameEvent(GameEvent.AsteroidHit);
-            // Add some score
+            gameEngine.setScoreToAdd(1);
         }
     }
 }

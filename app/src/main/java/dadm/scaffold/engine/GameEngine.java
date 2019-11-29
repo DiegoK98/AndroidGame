@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import dadm.scaffold.ScaffoldActivity;
+import dadm.scaffold.counter.GameFragment;
 import dadm.scaffold.input.InputController;
 import dadm.scaffold.sound.GameEvent;
 import dadm.scaffold.sound.SoundManager;
@@ -33,8 +35,10 @@ public class GameEngine {
     public int width;
     public int height;
     public double pixelFactor;
+    private int scoreToAdd = 0;
+    private int livesToTake = 0;
 
-    private Activity mainActivity;
+    public Activity mainActivity;
 
     public GameEngine(Activity activity, GameView gameView) {
         mainActivity = activity;
@@ -122,7 +126,7 @@ public class GameEngine {
         int nugameObjects = gameObjects.size();
         for (int i = 0; i < nugameObjects; i++) {
             GameObject go =  gameObjects.get(i);
-            go.onUpdate(elapsedMillis, this);
+            go.onUpdate(elapsedMillis,this);
             if(go instanceof ScreenGameObject) {
                 ((ScreenGameObject) go).onPostUpdate(this);
             }
@@ -184,5 +188,27 @@ public class GameEngine {
         // We notify all the GameObjects
         // Also the sound manager
         soundManager.playSoundForGameEvent(gameEvent);
+    }
+
+    public void setScoreToAdd(int score) {
+        scoreToAdd = score;
+    }
+
+    public int getScoreToAdd() {
+        return scoreToAdd;
+    }
+
+    public void setLivesToTake(int livesToTake) {
+        this.livesToTake = livesToTake;
+    }
+
+    public int getLivesToTake() {
+        return livesToTake;
+    }
+
+    public void enableFinalizer() {
+        GameFragment fragment_obj = ((ScaffoldActivity) mainActivity).gameFrag;
+
+        fragment_obj.enableFinalizer();
     }
 }

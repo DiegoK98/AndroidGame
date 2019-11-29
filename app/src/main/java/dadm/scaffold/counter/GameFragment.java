@@ -15,6 +15,7 @@ import dadm.scaffold.ScaffoldActivity;
 import dadm.scaffold.engine.FramesPerSecondCounter;
 import dadm.scaffold.engine.GameEngine;
 import dadm.scaffold.engine.GameView;
+import dadm.scaffold.engine.ScoreCounter;
 import dadm.scaffold.input.JoystickInputController;
 import dadm.scaffold.space.GameController;
 import dadm.scaffold.space.SpaceShipPlayer;
@@ -37,6 +38,8 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         view.findViewById(R.id.btn_play_pause).setOnClickListener(this);
+        view.findViewById(R.id.btn_finalizer).setOnClickListener(this);
+        view.findViewById(R.id.btn_finalizer).setEnabled(false);
         final ViewTreeObserver observer = view.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener(){
             @Override
@@ -50,18 +53,20 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
                 theGameEngine.setTheInputController(new JoystickInputController(getView()));
                 theGameEngine.addGameObject(new SpaceShipPlayer(theGameEngine));
                 theGameEngine.addGameObject(new FramesPerSecondCounter(theGameEngine));
+                theGameEngine.addGameObject(new ScoreCounter(theGameEngine));
                 theGameEngine.addGameObject(new GameController(theGameEngine));
                 theGameEngine.startGame();
             }
         });
-
-
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_play_pause) {
             pauseGameAndShowPauseDialog();
+        }
+        if (v.getId() == R.id.btn_finalizer) {
+            finalizeGame();
         }
     }
 
@@ -119,15 +124,12 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
 
     }
 
-    private void playOrPause() {
-        Button button = (Button) getView().findViewById(R.id.btn_play_pause);
-        if (theGameEngine.isPaused()) {
-            theGameEngine.resumeGame();
-            button.setText(R.string.pause);
-        }
-        else {
-            theGameEngine.pauseGame();
-            button.setText(R.string.resume);
-        }
+    public void enableFinalizer() {
+        getView().findViewById(R.id.btn_finalizer).setEnabled(true);
+    }
+
+    private void finalizeGame() {
+        theGameEngine.stopGame();
+        ((ScaffoldActivity)getActivity()).navigateBack();
     }
 }
