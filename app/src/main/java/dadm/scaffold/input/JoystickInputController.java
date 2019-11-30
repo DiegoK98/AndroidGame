@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import dadm.scaffold.R;
+import dadm.scaffold.engine.Vector;
 
 public class JoystickInputController extends InputController {
 
@@ -56,19 +57,14 @@ public class JoystickInputController extends InputController {
             else if (action == MotionEvent.ACTION_MOVE) {
                 // Get the proportion to the max
                 horizontalFactor = (event.getX(0) - startingPositionX) / maxDistance;
-                if (horizontalFactor > 1) {
-                    horizontalFactor = 1;
-                }
-                else if (horizontalFactor < -1) {
-                    horizontalFactor = -1;
-                }
                 verticalFactor = (event.getY(0) - startingPositionY) / maxDistance;
-                if (verticalFactor > 1) {
-                    verticalFactor = 1;
-                }
-                else if (verticalFactor < -1) {
-                    verticalFactor = -1;
-                }
+
+                Vector vector = new Vector(horizontalFactor, verticalFactor);
+
+                vector.clamp(1);
+
+                horizontalFactor = vector.x;
+                verticalFactor = vector.y;
 
                 smallCircleImg.setImageResource(smallCircleResource);
                 smallCircleImg.setX((float)(horizontalFactor * maxDistance) + startingPositionX - smallCircleImg.getWidth()/2);
