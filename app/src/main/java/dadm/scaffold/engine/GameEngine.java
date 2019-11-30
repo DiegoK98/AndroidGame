@@ -207,8 +207,12 @@ public class GameEngine {
     }
 
     public void enableFinalizer() {
-        GameFragment fragment_obj = ((ScaffoldActivity) mainActivity).gameFrag;
-
-        fragment_obj.enableFinalizer();
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                GameFragment fragment_obj = ((ScaffoldActivity) mainActivity).gameFrag;
+                fragment_obj.enableFinalizer();
+            }
+        });
     }
 }
