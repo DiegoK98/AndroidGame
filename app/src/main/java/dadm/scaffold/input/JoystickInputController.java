@@ -1,6 +1,7 @@
 package dadm.scaffold.input;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +16,8 @@ public class JoystickInputController extends InputController {
 
     private final double maxDistance;
 
+    ImageView fireButton;
+
     ImageView bigCircleImg;
     int bigCircleResource;
 
@@ -27,6 +30,8 @@ public class JoystickInputController extends InputController {
 
         double pixelFactor = view.getHeight() / 400d;
         maxDistance = 50*pixelFactor;
+
+        fireButton = (ImageView) view.findViewById(R.id.firebutton);
 
         bigCircleImg = (ImageView) view.findViewById(R.id.bigCircle);
         bigCircleResource = context.getResources().getIdentifier("@drawable/bigcircle", "drawable", context.getPackageName());
@@ -79,9 +84,11 @@ public class JoystickInputController extends InputController {
         public boolean onTouch(View v, MotionEvent event) {
             int action = event.getActionMasked();
             if (action == MotionEvent.ACTION_DOWN) {
+                fireButton.setImageAlpha(100);
                 isFiring = true;
             }
             else if (action == MotionEvent.ACTION_UP) {
+                fireButton.setImageAlpha(255);
                 isFiring = false;
             }
             return true;

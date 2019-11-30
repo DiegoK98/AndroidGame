@@ -2,12 +2,14 @@ package dadm.scaffold.counter;
 
 import android.content.DialogInterface;
 import android.app.AlertDialog;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import dadm.scaffold.BaseFragment;
 import dadm.scaffold.R;
@@ -23,6 +25,7 @@ import dadm.scaffold.space.SpaceShipPlayer;
 
 public class GameFragment extends BaseFragment implements View.OnClickListener {
     private GameEngine theGameEngine;
+    ImageView pauseButton;
 
     public GameFragment() {
     }
@@ -37,6 +40,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        pauseButton = (ImageView) view.findViewById(R.id.btn_pause);
         view.findViewById(R.id.btn_play_pause).setOnClickListener(this);
         view.findViewById(R.id.btn_finalizer).setOnClickListener(this);
         view.findViewById(R.id.btn_finalizer).setEnabled(false);
@@ -94,6 +98,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void pauseGameAndShowPauseDialog() {
+        pauseButton.setImageAlpha(100);
         theGameEngine.pauseGame();
         new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.pause_dialog_title)
@@ -103,6 +108,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         theGameEngine.resumeGame();
+                        pauseButton.setImageAlpha(255);
                     }
                 })
                 .setNegativeButton(R.string.stop, new DialogInterface.OnClickListener() {
@@ -117,6 +123,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
                     @Override
                     public void onCancel(DialogInterface dialog) {
                         theGameEngine.resumeGame();
+                        pauseButton.setImageAlpha(255);
                     }
                 })
                 .create()

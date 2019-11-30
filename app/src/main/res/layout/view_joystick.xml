@@ -28,6 +28,7 @@
         android:id="@+id/bigCircle"
         android:layout_width="400px"
         android:layout_height="400px"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp" />
@@ -36,7 +37,18 @@
         android:id="@+id/smallCircle"
         android:layout_width="200px"
         android:layout_height="200px"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp" />
+
+    <ImageView
+        android:id="@+id/firebutton"
+        android:layout_width="300px"
+        android:layout_height="300px"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/shoot" />
 </RelativeLayout>
