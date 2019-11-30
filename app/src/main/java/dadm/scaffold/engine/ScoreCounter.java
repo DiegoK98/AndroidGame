@@ -13,7 +13,7 @@ public class ScoreCounter extends GameObject {
 
     private Paint paint;
     private int score;
-    private int maxScore = 4;
+    private int maxScore = 50;
     private int initLives = 3;
     private int lives;
 

@@ -50,7 +50,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
                 GameView gameView = (GameView) getView().findViewById(R.id.gameView);
                 theGameEngine = new GameEngine(getActivity(), gameView);
                 theGameEngine.setSoundManager(getScaffoldActivity().getSoundManager());
-                theGameEngine.setTheInputController(new JoystickInputController(getView()));
+                theGameEngine.setTheInputController(new JoystickInputController(getView(), getContext()));
                 theGameEngine.addGameObject(new SpaceShipPlayer(theGameEngine));
                 theGameEngine.addGameObject(new FramesPerSecondCounter(theGameEngine));
                 theGameEngine.addGameObject(new ScoreCounter(theGameEngine));
@@ -130,6 +130,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
 
     private void finalizeGame() {
         theGameEngine.stopGame();
-        ((ScaffoldActivity)getActivity()).navigateBack();
+        //Efecto visual
+        //Pasar a game over
     }
 }

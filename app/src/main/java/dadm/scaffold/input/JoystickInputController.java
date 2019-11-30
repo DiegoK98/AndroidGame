@@ -1,7 +1,9 @@
 package dadm.scaffold.input;
 
+import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import dadm.scaffold.R;
 
@@ -12,12 +14,24 @@ public class JoystickInputController extends InputController {
 
     private final double maxDistance;
 
-    public JoystickInputController(View view) {
+    ImageView bigCircleImg;
+    int bigCircleResource;
+
+    ImageView smallCircleImg;
+    int smallCircleResource;
+
+    public JoystickInputController(View view, Context context) {
         view.findViewById(R.id.joystick_main).setOnTouchListener(new JoystickTouchListener());
         view.findViewById(R.id.joystick_touch).setOnTouchListener(new FireButtonTouchListener());
 
         double pixelFactor = view.getHeight() / 400d;
         maxDistance = 50*pixelFactor;
+
+        bigCircleImg = (ImageView) view.findViewById(R.id.bigCircle);
+        bigCircleResource = context.getResources().getIdentifier("@drawable/bigcircle", "drawable", context.getPackageName());
+
+        smallCircleImg = (ImageView) view.findViewById(R.id.smallCircle);
+        smallCircleResource = context.getResources().getIdentifier("@drawable/smallcircle", "drawable", context.getPackageName());
     }
 
     private class JoystickTouchListener implements View.OnTouchListener {
@@ -27,10 +41,17 @@ public class JoystickInputController extends InputController {
             if (action == MotionEvent.ACTION_DOWN) {
                 startingPositionX = event.getX(0);
                 startingPositionY = event.getY(0);
+
+                bigCircleImg.setImageResource(bigCircleResource);
+                bigCircleImg.setX(startingPositionX - bigCircleImg.getWidth()/2);
+                bigCircleImg.setY(startingPositionY - bigCircleImg.getHeight()/2);
             }
             else if (action == MotionEvent.ACTION_UP) {
                 horizontalFactor = 0;
                 verticalFactor = 0;
+
+                bigCircleImg.setImageResource(android.R.color.transparent);
+                smallCircleImg.setImageResource(android.R.color.transparent);
             }
             else if (action == MotionEvent.ACTION_MOVE) {
                 // Get the proportion to the max
@@ -48,6 +69,10 @@ public class JoystickInputController extends InputController {
                 else if (verticalFactor < -1) {
                     verticalFactor = -1;
                 }
+
+                smallCircleImg.setImageResource(smallCircleResource);
+                smallCircleImg.setX((float)(horizontalFactor * maxDistance) + startingPositionX - smallCircleImg.getWidth()/2);
+                smallCircleImg.setY((float)(verticalFactor * maxDistance) + startingPositionY - smallCircleImg.getHeight()/2);
             }
             return true;
         }
