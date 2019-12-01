@@ -1,5 +1,7 @@
 package dadm.scaffold.space;
 
+import android.os.Handler;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,15 +15,17 @@ import dadm.scaffold.sound.GameEvent;
 
 public class SpaceShipPlayer extends Sprite {
 
-    private static final int INITIAL_BULLET_POOL_AMOUNT = 6;
-    private static final long TIME_BETWEEN_BULLETS = 250;
+    private static final int INITIAL_BULLET_POOL_AMOUNT = 20;
+    private static final long TIME_BETWEEN_BULLETS = 300;
+    private static final long TIME_BETWEEN_BULLETS_ALT = 50;
     List<Bullet> bullets = new ArrayList<Bullet>();
     private long timeSinceLastFire;
+    private long timeSinceLastAltFire = TIME_BETWEEN_BULLETS_ALT;
 
     private int maxX;
     private int maxY;
     private double speedFactor;
-
+    int i = 0;
 
     public SpaceShipPlayer(GameEngine gameEngine, int ship_type){
         super(gameEngine, ship_type);
@@ -81,19 +85,36 @@ public class SpaceShipPlayer extends Sprite {
         }
     }
 
+    private void shootBullet(GameEngine gameEngine, int direction) {
+        Bullet bullet = getBullet();
+        if (bullet == null) {
+            return;
+        }
+        bullet.init(this, positionX + width/2, positionY + height/2, direction);
+        gameEngine.addGameObject(bullet);
+        gameEngine.onGameEvent(GameEvent.LaserFired);
+    }
+
     private void checkFiring(long elapsedMillis, GameEngine gameEngine) {
         if (gameEngine.theInputController.isFiring && timeSinceLastFire > TIME_BETWEEN_BULLETS) {
-            Bullet bullet = getBullet();
-            if (bullet == null) {
-                return;
-            }
-            bullet.init(this, positionX + width/2, positionY);
-            gameEngine.addGameObject(bullet);
+            shootBullet(gameEngine, 0);
             timeSinceLastFire = 0;
-            gameEngine.onGameEvent(GameEvent.LaserFired);
         }
         else {
             timeSinceLastFire += elapsedMillis;
+        }
+
+        if (gameEngine.theInputController.isFiringAlt && timeSinceLastAltFire > TIME_BETWEEN_BULLETS_ALT) {
+            if(i < 8) {
+                shootBullet(gameEngine, i);
+                i++;
+            } else {
+                gameEngine.theInputController.isFiringAlt = false;
+                i = 0;
+            }
+            timeSinceLastAltFire = 0;
+        } else {
+            timeSinceLastAltFire += elapsedMillis;
         }
     }
 

@@ -2,11 +2,13 @@ package dadm.scaffold.input;
 
 import android.content.Context;
 import android.media.Image;
+import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
 import dadm.scaffold.R;
+import dadm.scaffold.ScaffoldActivity;
 import dadm.scaffold.engine.Vector;
 
 public class JoystickInputController extends InputController {
@@ -15,6 +17,7 @@ public class JoystickInputController extends InputController {
     private float startingPositionY;
 
     private final double maxDistance;
+    private boolean enabled = true;
 
     ImageView fireButton;
 
@@ -82,14 +85,22 @@ public class JoystickInputController extends InputController {
     private class FireButtonTouchListener implements View.OnTouchListener {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            int action = event.getActionMasked();
-            if (action == MotionEvent.ACTION_DOWN) {
-                fireButton.setImageAlpha(100);
-                isFiring = true;
-            }
-            else if (action == MotionEvent.ACTION_UP) {
-                fireButton.setImageAlpha(255);
-                isFiring = false;
+            if(enabled) {
+                int action = event.getActionMasked();
+                if (action == MotionEvent.ACTION_DOWN) {
+                    fireButton.setImageAlpha(100);
+                } else if (action == MotionEvent.ACTION_UP) {
+                    isFiringAlt = true;
+                    enabled = false;
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            fireButton.setImageAlpha(255);
+                            enabled = true;
+                        }
+                    }, 5000);
+                }
             }
             return true;
         }
