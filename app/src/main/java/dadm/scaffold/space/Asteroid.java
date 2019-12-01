@@ -16,7 +16,7 @@ public class Asteroid extends Sprite {
 
     public Asteroid(GameController gameController, GameEngine gameEngine) {
         super(gameEngine, R.drawable.a10000);
-        this.speed = 200d * pixelFactor/1000d;
+        this.speed = 400d * pixelFactor/1000d;
         this.gameController = gameController;
     }
 

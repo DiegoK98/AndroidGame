@@ -16,7 +16,7 @@ import dadm.scaffold.sound.GameEvent;
 public class SpaceShipPlayer extends Sprite {
 
     private static final int INITIAL_BULLET_POOL_AMOUNT = 20;
-    private static final long TIME_BETWEEN_BULLETS = 300;
+    private static final long TIME_BETWEEN_BULLETS = 600;
     private static final long TIME_BETWEEN_BULLETS_ALT = 50;
     List<Bullet> bullets = new ArrayList<Bullet>();
     private long timeSinceLastFire;
@@ -30,7 +30,7 @@ public class SpaceShipPlayer extends Sprite {
     public SpaceShipPlayer(GameEngine gameEngine, int ship_type){
         super(gameEngine, ship_type);
 
-        speedFactor = pixelFactor * 100d / 1000d; // We want to move at 100px per second on a 400px tall screen
+        speedFactor = pixelFactor * 300d / 1000d; // We want to move at 100px per second on a 400px tall screen
         maxX = gameEngine.width - width;
         maxY = gameEngine.height - height;
 
