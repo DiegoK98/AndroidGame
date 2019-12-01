@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import dadm.scaffold.BaseFragment;
 import dadm.scaffold.R;
@@ -59,6 +60,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
                 theGameEngine.addGameObject(new ScoreCounter(theGameEngine));
                 theGameEngine.addGameObject(new GameController(theGameEngine));
                 theGameEngine.startGame();
+                theGameEngine.setViews((ImageView)getActivity().findViewById(R.id.background), (ImageView)getActivity().findViewById(R.id.background2));
             }
         });
     }
