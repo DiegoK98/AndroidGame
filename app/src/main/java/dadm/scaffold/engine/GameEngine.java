@@ -3,6 +3,7 @@ package dadm.scaffold.engine;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,10 @@ public class GameEngine {
 
     public void setTheInputController(InputController inputController) {
         theInputController = inputController;
+    }
+
+    public void setViews(ImageView background1, ImageView background2){
+        theUpdateThread.backgroundAnimation(background1, background2);
     }
 
     public void startGame() {

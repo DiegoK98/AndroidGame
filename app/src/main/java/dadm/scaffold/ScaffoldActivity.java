@@ -5,6 +5,7 @@ import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import dadm.scaffold.counter.GameFragment;
 import dadm.scaffold.counter.GameOverFragment;

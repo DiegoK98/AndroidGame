@@ -1,5 +1,9 @@
 package dadm.scaffold.engine;
 
+import android.animation.ValueAnimator;
+import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
+
 public class UpdateThread extends Thread {
 
     private final GameEngine theGameEngine;
@@ -7,6 +11,11 @@ public class UpdateThread extends Thread {
     private boolean isGamePaused = false;
 
     private Object synchroLock = new Object();
+
+    //Parallax Parameters
+    private ValueAnimator animator;
+    private ImageView background1;
+    private ImageView background2;
 
     public UpdateThread(GameEngine gameEngine) {
         theGameEngine = gameEngine;
@@ -17,6 +26,31 @@ public class UpdateThread extends Thread {
         isGameRunning = true;
         isGamePaused = false;
         super.start();
+    }
+
+    public void backgroundAnimation(final ImageView background1, final ImageView background2){
+        //Store the views
+        this.background1 = background1;
+        this.background2 = background2;
+
+        //Parallax
+        animator = ValueAnimator.ofFloat(0.0f, 1.0f);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator.setInterpolator(new LinearInterpolator());
+        animator.setDuration(2500L);
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                final float currentProgress = (float) valueAnimator.getAnimatedValue();
+                final float height = background1.getHeight();
+                final float translationY = height * currentProgress;
+                background1.setTranslationY(translationY);
+                background2.setTranslationY(translationY - height);
+            }
+        });
+
+        animator.start();
     }
 
     public void stopGame() {
@@ -53,6 +87,7 @@ public class UpdateThread extends Thread {
 
     public void pauseGame() {
         isGamePaused = true;
+        animator.end();
     }
 
     public void resumeGame() {
@@ -61,6 +96,7 @@ public class UpdateThread extends Thread {
             synchronized (synchroLock) {
                 synchroLock.notify();
             }
+            backgroundAnimation(background1, background2);
         }
     }
 
