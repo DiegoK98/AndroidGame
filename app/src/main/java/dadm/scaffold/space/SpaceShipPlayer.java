@@ -39,7 +39,7 @@ public class SpaceShipPlayer extends Sprite {
 
     private void initBulletPool(GameEngine gameEngine) {
         for (int i=0; i<INITIAL_BULLET_POOL_AMOUNT; i++) {
-            bullets.add(new Bullet(gameEngine));
+            bullets.add(new Bullet(gameEngine, R.drawable.proyectil_claro1));
         }
     }
 
@@ -50,7 +50,8 @@ public class SpaceShipPlayer extends Sprite {
         return bullets.remove(0);
     }
 
-    void releaseBullet(Bullet bullet) {
+    @Override
+    public void releaseBullet(Bullet bullet) {
         bullets.add(bullet);
     }
 
@@ -123,6 +124,12 @@ public class SpaceShipPlayer extends Sprite {
         if (otherObject instanceof Asteroid) {
             Asteroid a = (Asteroid) otherObject;
             a.removeObject(gameEngine);
+            gameEngine.onGameEvent(GameEvent.SpaceshipHit);
+            gameEngine.setLivesToTake(1);
+        }
+        else if ((otherObject instanceof Bullet && (((Bullet) otherObject)).parent.getClass().equals(Asteroid.class))) {
+            Bullet b = (Bullet) otherObject;
+            b.removeObject(gameEngine);
             gameEngine.onGameEvent(GameEvent.SpaceshipHit);
             gameEngine.setLivesToTake(1);
         }

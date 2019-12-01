@@ -12,10 +12,10 @@ public class Bullet extends Sprite {
     private int direction;
     private long lifeTime;
 
-    private SpaceShipPlayer parent;
+    public Sprite parent;
 
-    public Bullet(GameEngine gameEngine){
-        super(gameEngine, R.drawable.proyectil_claro1);
+    public Bullet(GameEngine gameEngine, int id){
+        super(gameEngine, id);
 
         speedFactor = gameEngine.pixelFactor * -300d / 1000d;
     }
@@ -67,7 +67,7 @@ public class Bullet extends Sprite {
     }
 
 
-    public void init(SpaceShipPlayer parentPlayer, double initPositionX, double initPositionY, int dir) {
+    public void init(Sprite parentPlayer, double initPositionX, double initPositionY, int dir) {
         positionX = initPositionX - width/2;
         positionY = initPositionY - height/2;
         parent = parentPlayer;
@@ -75,7 +75,7 @@ public class Bullet extends Sprite {
         lifeTime = 0;
     }
 
-    private void removeObject(GameEngine gameEngine) {
+    public void removeObject(GameEngine gameEngine) {
         gameEngine.removeGameObject(this);
         // And return it to the pool
         parent.releaseBullet(this);
@@ -83,13 +83,17 @@ public class Bullet extends Sprite {
 
     @Override
     public void onCollision(GameEngine gameEngine, ScreenGameObject otherObject) {
-        if (otherObject instanceof Asteroid) {
+        if (otherObject instanceof Asteroid && parent.getClass().equals(SpaceShipPlayer.class)) {
             // Remove both from the game (and return them to their pools)
             removeObject(gameEngine);
             Asteroid a = (Asteroid) otherObject;
             a.removeObject(gameEngine);
             gameEngine.onGameEvent(GameEvent.AsteroidHit);
             gameEngine.setScoreToAdd(10);
+        }
+        else if(otherObject instanceof SpaceShipPlayer && parent.getClass().equals(Asteroid.class)){
+            removeObject(gameEngine);
+            SpaceShipPlayer s = (SpaceShipPlayer) otherObject;
         }
     }
 }
