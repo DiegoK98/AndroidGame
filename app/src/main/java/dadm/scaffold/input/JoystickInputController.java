@@ -34,10 +34,10 @@ public class JoystickInputController extends InputController {
         fireButton = (ImageView) view.findViewById(R.id.firebutton);
 
         bigCircleImg = (ImageView) view.findViewById(R.id.bigCircle);
-        bigCircleResource = context.getResources().getIdentifier("@drawable/bigcircle", "drawable", context.getPackageName());
+        bigCircleResource = context.getResources().getIdentifier("@drawable/circulo_grande_transparente", "drawable", context.getPackageName());
 
         smallCircleImg = (ImageView) view.findViewById(R.id.smallCircle);
-        smallCircleResource = context.getResources().getIdentifier("@drawable/smallcircle", "drawable", context.getPackageName());
+        smallCircleResource = context.getResources().getIdentifier("@drawable/circulo_pequeno", "drawable", context.getPackageName());
     }
 
     private class JoystickTouchListener implements View.OnTouchListener {

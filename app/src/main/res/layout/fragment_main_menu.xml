@@ -39,7 +39,11 @@
         android:layout_width="192dp"
         android:layout_height="64dp"
         android:layout_gravity="center"
-        android:background="@drawable/play"
-        android:visibility="visible" />
+        android:fontFamily="@font/press_start_2p"
+        android:text="PLAY"
+        android:textColor="@android:color/white"
+        android:background="@drawable/btn_positive"
+        android:visibility="visible"
+        android:textSize="28sp"/>
 
 </FrameLayout>
