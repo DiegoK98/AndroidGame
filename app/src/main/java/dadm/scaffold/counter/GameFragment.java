@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.Toast;
 
 import dadm.scaffold.BaseFragment;
 import dadm.scaffold.R;
@@ -53,7 +52,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
                 theGameEngine = new GameEngine(getActivity(), gameView);
                 theGameEngine.setSoundManager(getScaffoldActivity().getSoundManager());
                 theGameEngine.setTheInputController(new JoystickInputController(getView(), getContext()));
-                theGameEngine.addGameObject(new SpaceShipPlayer(theGameEngine));
+                theGameEngine.addGameObject(new SpaceShipPlayer(theGameEngine, ((ScaffoldActivity)getActivity()).ship_id));
                 theGameEngine.addGameObject(new FramesPerSecondCounter(theGameEngine));
                 theGameEngine.addGameObject(new ScoreCounter(theGameEngine));
                 theGameEngine.addGameObject(new GameController(theGameEngine));
@@ -64,7 +63,6 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(getContext(), String.valueOf(v.getId()), Toast.LENGTH_LONG).show();
         if (v.getId() == R.id.btn_play_pause) {
             pauseGameAndShowPauseDialog();
         }
@@ -113,7 +111,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         theGameEngine.stopGame();
-                        ((ScaffoldActivity)getActivity()).navigateBack();
+                        ((ScaffoldActivity)getActivity()).mainMenu();
                     }
                 })
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
