@@ -31,6 +31,13 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
     private GameEngine theGameEngine;
     private View pauseButton;
 
+    //Pause menu
+    private View pause_menu;
+    private View pause_image;
+
+    //Finalizer
+    private Button finalizer;
+
     public GameFragment() {
     }
 
@@ -46,8 +53,20 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         pauseButton = view.findViewById(R.id.btn_play_pause);
         pauseButton.setOnClickListener(this);
-        view.findViewById(R.id.btn_finalizer).setOnClickListener(this);
-        view.findViewById(R.id.btn_finalizer).setEnabled(false);
+
+        pause_menu = view.findViewById(R.id.menu);
+        pause_image = view.findViewById(R.id.menu_image);
+
+        finalizer = view.findViewById(R.id.btn_finalizer);
+
+        //Pause menu buttons
+        for(int i= 1; i< ((ViewGroup)pause_menu).getChildCount(); i++){
+            Button child = (Button)((ViewGroup)pause_menu).getChildAt(i);
+            child.setOnClickListener(this);
+        }
+
+        finalizer.setOnClickListener(this);
+        finalizer.setEnabled(false);
         final ViewTreeObserver observer = view.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener(){
             @Override
@@ -71,11 +90,27 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_play_pause) {
-            pauseGameAndShowPauseDialog();
-        }
-        if (v.getId() == R.id.btn_finalizer) {
-            finalizeGame();
+        switch(v.getId()){
+            case R.id.btn_play_pause:
+                pauseGameAndShowPauseDialog();
+                break;
+            case R.id.btn_finalizer:
+                finalizeGame();
+                break;
+            case R.id.btn_menu:
+                theGameEngine.stopGame();
+                ((ScaffoldActivity)getActivity()).mainMenu();
+                break;
+            case R.id.btn_restart:
+                theGameEngine.stopGame();
+                ((ScaffoldActivity)getActivity()).startGame(((ScaffoldActivity)getActivity()).last_id);
+                break;
+            case R.id.btn_continue:
+                pause_menu.setVisibility(View.GONE);
+                pause_image.setVisibility(View.GONE);
+                theGameEngine.resumeGame();
+                pauseButton.setAlpha(1);
+                break;
         }
     }
 
@@ -105,40 +140,14 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
     private void pauseGameAndShowPauseDialog() {
         pauseButton.setAlpha(0.4f);
         theGameEngine.pauseGame();
-        new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.pause_dialog_title)
-                .setMessage(R.string.pause_dialog_message)
-                .setPositiveButton(R.string.resume, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        theGameEngine.resumeGame();
-                        pauseButton.setAlpha(1);
-                    }
-                })
-                .setNegativeButton(R.string.stop, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        theGameEngine.stopGame();
-                        ((ScaffoldActivity)getActivity()).mainMenu();
-                    }
-                })
-                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-                        theGameEngine.resumeGame();
-                        pauseButton.setAlpha(1);
-                    }
-                })
-                .create()
-                .show();
 
+        pause_image.setVisibility(View.VISIBLE);
+        pause_menu.setVisibility(View.VISIBLE);
     }
 
     public void enableFinalizer() {
-        getView().findViewById(R.id.btn_finalizer).setEnabled(true);
-        getView().findViewById(R.id.btn_finalizer).setVisibility(View.VISIBLE);
+        finalizer.setEnabled(true);
+        finalizer.setVisibility(View.VISIBLE);
     }
 
     private void finalizeGame() {

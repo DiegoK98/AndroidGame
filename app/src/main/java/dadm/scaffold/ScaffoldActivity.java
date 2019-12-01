@@ -19,6 +19,7 @@ public class ScaffoldActivity extends AppCompatActivity {
 
     private SoundManager soundManager;
 
+    public int last_id = 0;
     public int ship_id = 0;
     public int dark_ship_id = 0;
 
@@ -46,6 +47,8 @@ public class ScaffoldActivity extends AppCompatActivity {
 
     public void startGame(int id) {
         // Navigate the the game fragment, which makes the start automatically
+
+        last_id = id;
 
         //Set ship ids
         switch (id){

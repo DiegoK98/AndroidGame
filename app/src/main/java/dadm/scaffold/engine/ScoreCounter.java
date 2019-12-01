@@ -23,6 +23,8 @@ public class ScoreCounter extends GameObject {
     private String scoreText = "";
     private String livesText = "";
 
+    private boolean overMaxScore = false;
+
     public ScoreCounter(GameEngine gameEngine) {
         paint = new Paint();
         paint.setTextAlign(Paint.Align.RIGHT);
@@ -44,11 +46,14 @@ public class ScoreCounter extends GameObject {
         gameEngine.setScoreToAdd(0);
         gameEngine.setLivesToTake(0);
 
-        if(score >= maxScore){
-            gameEngine.enableFinalizer();
-            scoreBarHeight = 290;
-        } else {
-            scoreBarHeight = 290 * score / maxScore;
+        if(!overMaxScore) {
+            if (score >= maxScore) {
+                gameEngine.enableFinalizer();
+                scoreBarHeight = 290;
+                overMaxScore = true;
+            } else {
+                scoreBarHeight = 290 * score / maxScore;
+            }
         }
 
         if(lives <= 0) {

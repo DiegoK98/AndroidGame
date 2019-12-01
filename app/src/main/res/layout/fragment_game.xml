@@ -51,6 +51,69 @@
     <include layout="@layout/view_joystick"/>
 
     <ImageView
+        android:id="@+id/menu_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:src="@drawable/pause_menu"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pause"
+            android:layout_gravity="center|top"
+            android:fontFamily="@font/press_start_2p"
+            android:textColor="@android:color/white"
+            android:textSize="25sp"
+            />
+
+        <Button
+            android:id="@+id/btn_menu"
+            android:layout_width="192dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center|top"
+            android:background="@drawable/btn_negative"
+            android:fontFamily="@font/press_start_2p"
+            android:layout_marginTop="32dp"
+            android:text="Menu"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_restart"
+            android:layout_width="192dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/btn_neutral2"
+            android:fontFamily="@font/press_start_2p"
+            android:text="REPLAY"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_continue"
+            android:layout_width="96dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center|bottom"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/pause_continue"
+            android:textSize="22sp"
+            android:visibility="visible" />
+    </LinearLayout>
+
+    <ImageView
         android:id="@+id/animation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
