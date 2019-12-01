@@ -46,7 +46,7 @@ public class ScoreCounter extends GameObject {
         }
         if(lives <= 0) {
             gameEngine.stopGame();
-            //Pasar a game over
+            ((ScaffoldActivity)gameEngine.mainActivity).gameOver();
         }
 
         scoreText = score + " / " + maxScore;

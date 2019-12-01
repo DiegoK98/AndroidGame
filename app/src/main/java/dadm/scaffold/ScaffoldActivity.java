@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import dadm.scaffold.counter.GameFragment;
+import dadm.scaffold.counter.GameOverFragment;
 import dadm.scaffold.counter.MainMenuFragment;
 import dadm.scaffold.counter.ShipSelectionFragment;
 import dadm.scaffold.sound.SoundManager;
@@ -23,6 +24,7 @@ public class ScaffoldActivity extends AppCompatActivity {
     public GameFragment gameFrag;
     public ShipSelectionFragment selectionFrag;
     public MainMenuFragment menuFrag;
+    public GameOverFragment gameOverFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,11 @@ public class ScaffoldActivity extends AppCompatActivity {
     public void mainMenu(){
         menuFrag = new MainMenuFragment();
         navigateToFragment(menuFrag);
+    }
+
+    public void gameOver() {
+        gameOverFrag = new GameOverFragment();
+        navigateToFragment(gameOverFrag);
     }
 
     private void navigateToFragment(BaseFragment dst) {

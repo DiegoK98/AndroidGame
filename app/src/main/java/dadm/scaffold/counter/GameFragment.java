@@ -24,6 +24,7 @@ import dadm.scaffold.space.SpaceShipPlayer;
 
 public class GameFragment extends BaseFragment implements View.OnClickListener {
     private GameEngine theGameEngine;
+    private View pauseButton;
 
     public GameFragment() {
     }
@@ -38,7 +39,8 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        view.findViewById(R.id.btn_play_pause).setOnClickListener(this);
+        pauseButton = view.findViewById(R.id.btn_play_pause);
+        pauseButton.setOnClickListener(this);
         view.findViewById(R.id.btn_finalizer).setOnClickListener(this);
         view.findViewById(R.id.btn_finalizer).setEnabled(false);
         final ViewTreeObserver observer = view.getViewTreeObserver();
@@ -95,6 +97,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
     }
 
     private void pauseGameAndShowPauseDialog() {
+        pauseButton.setAlpha(0.4f);
         theGameEngine.pauseGame();
         new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.pause_dialog_title)
@@ -104,6 +107,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         theGameEngine.resumeGame();
+                        pauseButton.setAlpha(1);
                     }
                 })
                 .setNegativeButton(R.string.stop, new DialogInterface.OnClickListener() {
@@ -118,6 +122,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
                     @Override
                     public void onCancel(DialogInterface dialog) {
                         theGameEngine.resumeGame();
+                        pauseButton.setAlpha(1);
                     }
                 })
                 .create()
@@ -132,6 +137,6 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
     private void finalizeGame() {
         theGameEngine.stopGame();
         //Efecto visual
-        //Pasar a game over
+        ((ScaffoldActivity)getActivity()).gameOver();
     }
 }
