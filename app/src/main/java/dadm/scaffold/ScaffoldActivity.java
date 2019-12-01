@@ -8,6 +8,7 @@ import android.view.View;
 
 import dadm.scaffold.counter.GameFragment;
 import dadm.scaffold.counter.MainMenuFragment;
+import dadm.scaffold.counter.ShipSelectionFragment;
 import dadm.scaffold.sound.SoundManager;
 
 public class ScaffoldActivity extends AppCompatActivity {
@@ -16,7 +17,12 @@ public class ScaffoldActivity extends AppCompatActivity {
 
     private SoundManager soundManager;
 
+    public int ship_id = 0;
+    public int dark_ship_id = 0;
+
     public GameFragment gameFrag;
+    public ShipSelectionFragment selectionFrag;
+    public MainMenuFragment menuFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +41,37 @@ public class ScaffoldActivity extends AppCompatActivity {
         return soundManager;
     }
 
-    public void startGame() {
+    public void startGame(int id) {
         // Navigate the the game fragment, which makes the start automatically
+
+        //Set ship ids
+        switch (id){
+            case 1:
+                ship_id = R.drawable.nave1_claro;
+                dark_ship_id = R.drawable.nave1_oscuro;
+                break;
+            case 2:
+                ship_id = R.drawable.nave2_claro;
+                dark_ship_id = R.drawable.nave2_oscuro;
+                break;
+            case 3:
+                ship_id = R.drawable.nave3_claro;
+                dark_ship_id = R.drawable.nave3_oscuro;
+                break;
+        }
+
         gameFrag = new GameFragment();
         navigateToFragment(gameFrag);
+    }
+
+    public void shipSelection(){
+        selectionFrag = new ShipSelectionFragment();
+        navigateToFragment(selectionFrag);
+    }
+
+    public void mainMenu(){
+        menuFrag = new MainMenuFragment();
+        navigateToFragment(menuFrag);
     }
 
     private void navigateToFragment(BaseFragment dst) {

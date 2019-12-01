@@ -32,6 +32,6 @@ public class MainMenuFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        ((ScaffoldActivity)getActivity()).startGame();
+        ((ScaffoldActivity)getActivity()).shipSelection();
     }
 }
