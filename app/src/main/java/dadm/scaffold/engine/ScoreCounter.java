@@ -3,6 +3,8 @@ package dadm.scaffold.engine;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 
 import dadm.scaffold.ScaffoldActivity;
 
@@ -12,8 +14,9 @@ public class ScoreCounter extends GameObject {
     private final float textHeight;
 
     private Paint paint;
+    private int scoreBarHeight = 0;
     private int score;
-    private int maxScore = 50;
+    private int maxScore = 100;
     private int initLives = 3;
     private int lives;
 
@@ -42,21 +45,33 @@ public class ScoreCounter extends GameObject {
         gameEngine.setLivesToTake(0);
 
         if(score >= maxScore){
-            gameEngine.enableFinalizer(); //No funciona (Error: Only the original thread that created a view hierarchy can touch its views)
+            gameEngine.enableFinalizer();
+            scoreBarHeight = 290;
+        } else {
+            scoreBarHeight = 290 * score / maxScore;
         }
+
         if(lives <= 0) {
             gameEngine.stopGame();
             ((ScaffoldActivity)gameEngine.mainActivity).gameOver();
         }
 
-        scoreText = score + " / " + maxScore;
         livesText = "LIVES LEFT: " + lives + " / " + initLives;
     }
 
     @Override
     public void onDraw(Canvas canvas) {
+        if(score >= maxScore) {
+            RectF rect = new RectF(canvas.getWidth() - 230, 260, canvas.getWidth() - 35, 590);
+            paint.setColor(Color.YELLOW);
+            canvas.drawRoundRect(rect, 15,15,paint);
+        }
         paint.setColor(Color.BLACK);
-        canvas.drawText(scoreText, (int) (canvas.getWidth() - 20), 400 + (textHeight / 2), paint);
-        canvas.drawText(livesText, (int) (canvas.getWidth() - 20), 500 + (textHeight / 2), paint);
+        canvas.drawText(livesText, (int) (canvas.getWidth() - 20), 600 + (textHeight / 2), paint);
+        paint.setColor(Color.BLUE);
+        paint.setAlpha(100);
+        canvas.drawRect(canvas.getWidth() - 220, 270, canvas.getWidth() - 45, 580, paint);
+        paint.setAlpha(255);
+        canvas.drawRect(canvas.getWidth() - 210, 570 - scoreBarHeight, canvas.getWidth() - 55, 570, paint);
     }
 }

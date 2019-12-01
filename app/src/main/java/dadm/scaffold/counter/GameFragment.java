@@ -3,13 +3,17 @@ package dadm.scaffold.counter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.app.AlertDialog;
+import android.graphics.drawable.AnimationDrawable;
+import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import dadm.scaffold.BaseFragment;
 import dadm.scaffold.R;
@@ -134,11 +138,29 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
 
     public void enableFinalizer() {
         getView().findViewById(R.id.btn_finalizer).setEnabled(true);
+        getView().findViewById(R.id.btn_finalizer).setVisibility(View.VISIBLE);
     }
 
     private void finalizeGame() {
-        theGameEngine.stopGame();
-        //Efecto visual
-        ((ScaffoldActivity)getActivity()).gameOver();
+        ImageView explosion = (ImageView) getView().findViewById(R.id.animation);
+        TextView win1 = (TextView) getView().findViewById(R.id.youWin1);
+        TextView win2 = (TextView) getView().findViewById(R.id.youWin2);
+
+        win1.setVisibility(View.VISIBLE);
+        win2.setVisibility(View.VISIBLE);
+        explosion.setVisibility(View.VISIBLE);
+        explosion.setImageResource(R.drawable.transition_animation);
+        AnimationDrawable explosionTransition = (AnimationDrawable) explosion.getDrawable();
+        explosionTransition.start();
+
+        new Handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                theGameEngine.stopGame();
+                ((ScaffoldActivity)getActivity()).gameOver();
+            }
+        }, 1000);
     }
 }
