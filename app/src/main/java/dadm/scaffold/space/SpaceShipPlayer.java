@@ -21,6 +21,7 @@ public class SpaceShipPlayer extends Sprite {
 
     private static final int INITIAL_BULLET_POOL_AMOUNT = 200;
     private static final long TIME_BETWEEN_BULLETS = 300;
+
     private static final long TIME_BETWEEN_BULLETS_ALT = 50;
     private List<Bullet> bullets = new ArrayList<Bullet>();
     private long timeSinceLastFire;
@@ -41,6 +42,7 @@ public class SpaceShipPlayer extends Sprite {
         this.ship_type = ship_type;
         this.dark_ship_type = dark_ship_type;
         speedFactor = pixelFactor * 100d / 1000d; // We want to move at 100px per second on a 400px tall screen
+      
         maxX = gameEngine.width - width;
         maxY = gameEngine.height - height;
         characterType = 0;

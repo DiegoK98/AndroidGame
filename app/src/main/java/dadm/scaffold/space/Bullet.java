@@ -11,6 +11,7 @@ public class Bullet extends Sprite {
     private double speedFactor;
     private int direction;
     private long lifeTime;
+    private long maxLifeTime = 1500;
 
     public Sprite parent;
 
@@ -60,7 +61,7 @@ public class Bullet extends Sprite {
         lifeTime += elapsedMillis;
 
         //if (positionY < -height) {
-        if(lifeTime > 1000) {
+        if(lifeTime > maxLifeTime) {
             gameEngine.removeGameObject(this);
             // And return it to the pool
             parent.releaseBullet(this);
