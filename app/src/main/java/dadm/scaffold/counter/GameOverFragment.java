@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import dadm.scaffold.BaseFragment;
 import dadm.scaffold.R;
@@ -27,6 +28,8 @@ public class GameOverFragment extends BaseFragment implements View.OnClickListen
         view.findViewById(R.id.btn_menu).setOnClickListener(this);
         view.findViewById(R.id.btn_restart).setOnClickListener(this);
         view.findViewById(R.id.btn_reselect).setOnClickListener(this);
+        TextView score = view.findViewById(R.id.score);
+        score.setText("Score:"+((ScaffoldActivity)getActivity()).score);
     }
 
     @Override

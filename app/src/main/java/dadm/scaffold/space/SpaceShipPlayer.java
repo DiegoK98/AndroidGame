@@ -1,5 +1,9 @@
 package dadm.scaffold.space;
 
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 
 import java.util.ArrayList;
@@ -15,10 +19,11 @@ import dadm.scaffold.sound.GameEvent;
 
 public class SpaceShipPlayer extends Sprite {
 
-    private static final int INITIAL_BULLET_POOL_AMOUNT = 20;
-    private static final long TIME_BETWEEN_BULLETS = 600;
+    private static final int INITIAL_BULLET_POOL_AMOUNT = 200;
+    private static final long TIME_BETWEEN_BULLETS = 300;
+
     private static final long TIME_BETWEEN_BULLETS_ALT = 50;
-    List<Bullet> bullets = new ArrayList<Bullet>();
+    private List<Bullet> bullets = new ArrayList<Bullet>();
     private long timeSinceLastFire;
     private long timeSinceLastAltFire = TIME_BETWEEN_BULLETS_ALT;
 
@@ -27,19 +32,35 @@ public class SpaceShipPlayer extends Sprite {
     private double speedFactor;
     int i = 0;
 
-    public SpaceShipPlayer(GameEngine gameEngine, int ship_type){
+    //Drawable ids
+    private int ship_type;
+    private int dark_ship_type;
+
+    public SpaceShipPlayer(GameEngine gameEngine, int ship_type, int dark_ship_type){
         super(gameEngine, ship_type);
 
-        speedFactor = pixelFactor * 300d / 1000d; // We want to move at 100px per second on a 400px tall screen
+        this.ship_type = ship_type;
+        this.dark_ship_type = dark_ship_type;
+        speedFactor = pixelFactor * 100d / 1000d; // We want to move at 100px per second on a 400px tall screen
+      
         maxX = gameEngine.width - width;
         maxY = gameEngine.height - height;
+        characterType = 0;
 
-        initBulletPool(gameEngine);
+        initBulletPool(gameEngine, characterType);
     }
 
-    private void initBulletPool(GameEngine gameEngine) {
-        for (int i=0; i<INITIAL_BULLET_POOL_AMOUNT; i++) {
-            bullets.add(new Bullet(gameEngine));
+    private synchronized void initBulletPool(GameEngine gameEngine, int type) {
+        bullets.clear();
+        if(type == 0) {
+            for (int i = 0; i < INITIAL_BULLET_POOL_AMOUNT; i++) {
+                bullets.add(new Bullet(gameEngine, R.drawable.proyectil_claro1, characterType));
+            }
+        }
+        else{
+            for (int i = 0; i < INITIAL_BULLET_POOL_AMOUNT; i++) {
+                bullets.add(new Bullet(gameEngine, R.drawable.proyectil_oscuro1, characterType));
+            }
         }
     }
 
@@ -50,7 +71,8 @@ public class SpaceShipPlayer extends Sprite {
         return bullets.remove(0);
     }
 
-    void releaseBullet(Bullet bullet) {
+    @Override
+    public void releaseBullet(Bullet bullet) {
         bullets.add(bullet);
     }
 
@@ -122,9 +144,36 @@ public class SpaceShipPlayer extends Sprite {
     public void onCollision(GameEngine gameEngine, ScreenGameObject otherObject) {
         if (otherObject instanceof Asteroid) {
             Asteroid a = (Asteroid) otherObject;
-            a.removeObject(gameEngine);
-            gameEngine.onGameEvent(GameEvent.SpaceshipHit);
-            gameEngine.setLivesToTake(1);
+
+            //Solo le afectan si son de distinto tipo
+            if (a.characterType != characterType) {
+                a.removeObject(gameEngine);
+                gameEngine.onGameEvent(GameEvent.SpaceshipHit);
+                gameEngine.setLivesToTake(1);
+            }
         }
+        else if ((otherObject instanceof Bullet && (((Bullet) otherObject)).parent.getClass().equals(Asteroid.class))) {
+            Bullet b = (Bullet) otherObject;
+
+            //Solo le afectan si son del distinto tipo
+            if(b.characterType != characterType) {
+                b.removeObject(gameEngine);
+                gameEngine.onGameEvent(GameEvent.SpaceshipHit);
+                gameEngine.setLivesToTake(1);
+            }
+        }
+    }
+
+    public void switchType(GameEngine gameEngine){
+        if(characterType == 0){
+            characterType = 1;
+            this.bitmap = BitmapFactory.decodeResource(r, dark_ship_type);
+
+        }
+        else{
+            characterType = 0;
+            this.bitmap = BitmapFactory.decodeResource(r, ship_type);
+        }
+        initBulletPool(gameEngine, characterType);
     }
 }

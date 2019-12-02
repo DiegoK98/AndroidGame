@@ -28,6 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <include layout="@layout/view_joystick"/>
+
     <Button
         android:layout_gravity="top|right"
         android:id="@+id/btn_play_pause"
@@ -38,17 +40,13 @@
         android:background="@drawable/pause" />
 
     <Button
-        android:id="@+id/btn_finalizer"
-        android:layout_width="69dp"
-        android:layout_height="123dp"
-        android:layout_gravity="top|right"
-        android:layout_marginTop="100dp"
+        android:id="@+id/btn_change_color"
+        android:layout_width="96dp"
+        android:layout_height="64dp"
+        android:layout_gravity="center|right"
         android:layout_marginRight="@dimen/activity_vertical_margin"
-        android:visibility="invisible"
-        android:background="@null"
-        android:text="END GAME"/>
-
-    <include layout="@layout/view_joystick"/>
+        android:visibility="visible"
+        android:background="@drawable/switch_colors" />
 
     <ImageView
         android:id="@+id/menu_image"
@@ -112,40 +110,4 @@
             android:textSize="22sp"
             android:visibility="visible" />
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/animation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/tile000"
-        android:visibility="invisible" />
-
-    <TextView
-        style="@android:style/TextAppearance.DeviceDefault.Large"
-        android:id="@+id/youWin1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_marginTop="48dp"
-        android:layout_marginRight="8dp"
-        android:fontFamily="@font/press_start_2p"
-        android:text="YOU WIN"
-        android:textColor="@android:color/holo_blue_bright"
-        android:textSize="48sp"
-        android:visibility="invisible"/>
-
-    <TextView
-        style="@android:style/TextAppearance.DeviceDefault.Large"
-        android:id="@+id/youWin2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_marginTop="48dp"
-        android:fontFamily="@font/press_start_2p"
-        android:text="YOU WIN"
-        android:textColor="@android:color/white"
-        android:textSize="48sp"
-        android:visibility="invisible"/>
-
 </FrameLayout>

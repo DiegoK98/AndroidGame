@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import dadm.scaffold.engine.GameEngine;
 import dadm.scaffold.engine.GameObject;
@@ -18,6 +19,7 @@ public class GameController extends GameObject {
     public GameController(GameEngine gameEngine) {
         // We initialize the pool of items now
         for (int i=0; i<10; i++) {
+            int n = new Random().nextInt(2);
             asteroidPool.add(new Asteroid(this, gameEngine));
         }
     }

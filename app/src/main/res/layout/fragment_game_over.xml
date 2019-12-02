@@ -34,6 +34,17 @@
         android:textColor="@android:color/white"
         android:textSize="48sp" />
 
+    <TextView
+        android:id="@+id/score"
+        style="@android:style/TextAppearance.DeviceDefault.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/press_start_2p"
+        android:text="Score:"
+        android:textColor="@android:color/white"
+        android:textSize="32sp" />
+
     <Button
         android:id="@+id/btn_menu"
     android:layout_width="192dp"

@@ -102,6 +102,7 @@ public class GameEngine {
         if (theDrawThread != null) {
             theDrawThread.pauseGame();
         }
+        theInputController.onPause();
     }
 
     public void resumeGame() {
@@ -111,6 +112,7 @@ public class GameEngine {
         if (theDrawThread != null) {
             theDrawThread.resumeGame();
         }
+        theInputController.onResume();
     }
 
     public void addGameObject(GameObject gameObject) {
@@ -154,6 +156,7 @@ public class GameEngine {
 
     public void onDraw() {
         theGameView.draw();
+
     }
 
     public boolean isRunning() {
@@ -211,13 +214,7 @@ public class GameEngine {
         return livesToTake;
     }
 
-    public void enableFinalizer() {
-        mainActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                GameFragment fragment_obj = ((ScaffoldActivity) mainActivity).gameFrag;
-                fragment_obj.enableFinalizer();
-            }
-        });
+    public void finalScore(int score){
+        ((ScaffoldActivity)mainActivity).finalScore(score);
     }
 }

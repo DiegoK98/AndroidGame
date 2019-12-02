@@ -7,8 +7,8 @@ import java.util.List;
 
 public class QuadTree {
 
-    private static final int MAX_QUADTREES = 36;
-    private static int MAX_OBJECTS_TO_CHECK = 8;
+    private static final int MAX_QUADTREES = 12;
+    private static int MAX_OBJECTS_TO_CHECK = 30;
 
     private List<ScreenGameObject> gameObjects = new ArrayList<ScreenGameObject>();
     private Rect area = new Rect();
