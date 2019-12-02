@@ -3,8 +3,7 @@ package dadm.scaffold.engine;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.RectF;
+import android.graphics.Typeface;
 
 import dadm.scaffold.ScaffoldActivity;
 
@@ -14,9 +13,9 @@ public class ScoreCounter extends GameObject {
     private final float textHeight;
 
     private Paint paint;
-    private int scoreBarHeight = 0;
-    private int score;
-    private int maxScore = 100;
+    //private int scoreBarHeight = 0;
+    public int score;
+    //private int maxScore = 100;
     private int initLives = 3;
     private int lives;
 
@@ -30,7 +29,10 @@ public class ScoreCounter extends GameObject {
         paint.setTextAlign(Paint.Align.RIGHT);
         textHeight = (float) (50 * gameEngine.pixelFactor);
         textWidth = (float) (150 * gameEngine.pixelFactor);
-        paint.setTextSize(textHeight / 2);
+        paint.setTextSize(textHeight / 3);
+        Typeface font = Typeface.createFromAsset(gameEngine.getContext().getAssets(), "fonts/press_start_2p.ttf");
+        paint.setTypeface(font);
+        paint.setColor(Color.WHITE);
     }
 
     @Override
@@ -46,37 +48,20 @@ public class ScoreCounter extends GameObject {
         gameEngine.setScoreToAdd(0);
         gameEngine.setLivesToTake(0);
 
-        if(!overMaxScore) {
-            if (score >= maxScore) {
-                gameEngine.enableFinalizer();
-                scoreBarHeight = 290;
-                overMaxScore = true;
-            } else {
-                scoreBarHeight = 290 * score / maxScore;
-            }
-        }
-
         if(lives <= 0) {
             gameEngine.stopGame();
             ((ScaffoldActivity)gameEngine.mainActivity).gameOver();
         }
-
-        livesText = "LIVES LEFT: " + lives + " / " + initLives;
+        scoreText = "SCORE: " + score;
+        livesText = "LIVES: " + lives + "/" + initLives;
+        gameEngine.finalScore(score);
     }
 
     @Override
     public void onDraw(Canvas canvas) {
-        if(score >= maxScore) {
-            RectF rect = new RectF(canvas.getWidth() - 230, 260, canvas.getWidth() - 35, 590);
-            paint.setColor(Color.YELLOW);
-            canvas.drawRoundRect(rect, 15,15,paint);
-        }
-        paint.setColor(Color.BLACK);
-        canvas.drawText(livesText, (int) (canvas.getWidth() - 20), 600 + (textHeight / 2), paint);
-        paint.setColor(Color.BLUE);
-        paint.setAlpha(100);
-        canvas.drawRect(canvas.getWidth() - 220, 270, canvas.getWidth() - 45, 580, paint);
-        paint.setAlpha(255);
-        canvas.drawRect(canvas.getWidth() - 210, 570 - scoreBarHeight, canvas.getWidth() - 55, 570, paint);
+
+
+        canvas.drawText(livesText, canvas.getWidth()/2 - textWidth,  (textHeight / 2), paint);
+        canvas.drawText(scoreText, canvas.getWidth()/2 + textWidth,  (textHeight / 2), paint);
     }
 }

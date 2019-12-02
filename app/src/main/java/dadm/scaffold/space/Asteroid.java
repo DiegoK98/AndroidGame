@@ -47,18 +47,13 @@ public class Asteroid extends Sprite {
 
 
     private void initBulletPool(GameEngine gameEngine) {
-        int id;
-        switch (enemyType){
-            case 1:
-                id = R.drawable.proyectil_claro1;
-                break;
-
-            default:
-                id = R.drawable.proyectil_oscuro1;
-                break;
-        }
-        for (int i=0; i<INITIAL_BULLET_POOL_AMOUNT; i++) {
-            bullets.add(new Bullet(gameEngine, id));
+        if(enemyType == 1 || enemyType == 3) {
+            for (int i = 0; i < INITIAL_BULLET_POOL_AMOUNT; i++) {
+                if(enemyType == 1)
+                    bullets.add(new Bullet(gameEngine, R.drawable.proyectil_claro1, 0));
+                else
+                    bullets.add(new Bullet(gameEngine, R.drawable.proyectil_oscuro1, 1));
+            }
         }
     }
 

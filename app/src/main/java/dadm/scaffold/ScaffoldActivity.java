@@ -1,5 +1,6 @@
 package dadm.scaffold;
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,8 @@ public class ScaffoldActivity extends AppCompatActivity {
     public ShipSelectionFragment selectionFrag;
     public MainMenuFragment menuFrag;
     public GameOverFragment gameOverFrag;
+
+    public int score = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,5 +129,9 @@ public class ScaffoldActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
             }
         }
+    }
+
+    public void finalScore(int score){
+        this.score = score;
     }
 }

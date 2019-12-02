@@ -23,7 +23,14 @@ public abstract class Sprite extends ScreenGameObject {
     //Enemy type
     protected int enemyType = 0;
 
-    private final Bitmap bitmap;
+    //Dark or light
+    public int characterType = 0;
+
+    protected Bitmap bitmap;
+    protected Resources r;
+
+    //Canvas reference
+    protected Canvas canvas;
 
     private final Matrix matrix = new Matrix();
 
@@ -36,15 +43,19 @@ public abstract class Sprite extends ScreenGameObject {
             switch (enemyType) {
                 case 1:
                     id = R.drawable.enemigo_beligerante_claro;
+                    characterType = 0;
                     break;
                 case 2:
                     id = R.drawable.enemigo_pacifico_claro;
+                    characterType = 0;
                     break;
                 case 3:
                     id = R.drawable.enemigo_beligerante_oscuro;
+                    characterType = 1;
                     break;
                 default:
                     id = R.drawable.enemigo_pacifico_oscuro;
+                    characterType = 1;
                     break;
             }
         }
@@ -53,7 +64,7 @@ public abstract class Sprite extends ScreenGameObject {
             id = drawableRes;
         }
 
-        Resources r = gameEngine.getContext().getResources();
+        r = gameEngine.getContext().getResources();
         Drawable spriteDrawable = r.getDrawable(id);
 
         this.pixelFactor = gameEngine.pixelFactor;
@@ -68,6 +79,7 @@ public abstract class Sprite extends ScreenGameObject {
 
     @Override
     public void onDraw(Canvas canvas) {
+        this.canvas = canvas;
         if (positionX > canvas.getWidth()
                 || positionY > canvas.getHeight()
                 || positionX < - width

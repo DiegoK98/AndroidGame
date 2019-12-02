@@ -36,8 +36,10 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
     private View pause_image;
 
     //Finalizer
-    private Button finalizer;
-    private boolean finalizerEnabled;
+    private Button switch_button;
+
+    //Player reference
+    private SpaceShipPlayer player;
 
     public GameFragment() {
     }
@@ -58,8 +60,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
         pause_menu = view.findViewById(R.id.menu);
         pause_image = view.findViewById(R.id.menu_image);
 
-        finalizer = view.findViewById(R.id.btn_finalizer);
-        finalizerEnabled = false;
+        switch_button = view.findViewById(R.id.btn_change_color);
 
         //Pause menu buttons
         for(int i= 1; i< ((ViewGroup)pause_menu).getChildCount(); i++){
@@ -67,8 +68,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
             child.setOnClickListener(this);
         }
 
-        finalizer.setOnClickListener(this);
-        finalizer.setEnabled(false);
+        switch_button.setOnClickListener(this);
         final ViewTreeObserver observer = view.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener(){
             @Override
@@ -80,7 +80,10 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
                 theGameEngine = new GameEngine(getActivity(), gameView);
                 theGameEngine.setSoundManager(getScaffoldActivity().getSoundManager());
                 theGameEngine.setTheInputController(new JoystickInputController(getView(), getContext()));
-                theGameEngine.addGameObject(new SpaceShipPlayer(theGameEngine, ((ScaffoldActivity)getActivity()).ship_id));
+
+                player = new SpaceShipPlayer(theGameEngine, ((ScaffoldActivity)getActivity()).ship_id, ((ScaffoldActivity)getActivity()).dark_ship_id);
+                theGameEngine.addGameObject(player);
+
                 theGameEngine.addGameObject(new FramesPerSecondCounter(theGameEngine));
                 theGameEngine.addGameObject(new ScoreCounter(theGameEngine));
                 theGameEngine.addGameObject(new GameController(theGameEngine));
@@ -96,8 +99,8 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
             case R.id.btn_play_pause:
                 pauseGameAndShowPauseDialog();
                 break;
-            case R.id.btn_finalizer:
-                finalizeGame();
+            case R.id.btn_change_color:
+                switchType();
                 break;
             case R.id.btn_menu:
                 theGameEngine.stopGame();
@@ -112,8 +115,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
                 pause_image.setVisibility(View.GONE);
                 theGameEngine.resumeGame();
                 pauseButton.setAlpha(1);
-                finalizer.setAlpha(1);
-                finalizer.setEnabled(finalizerEnabled);
+                switch_button.setAlpha(1);
                 break;
         }
     }
@@ -143,40 +145,15 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
 
     private void pauseGameAndShowPauseDialog() {
         pauseButton.setAlpha(0.4f);
-        finalizer.setAlpha(0.4f);
-        finalizer.setEnabled(false);
+        switch_button.setAlpha(0.4f);
+        switch_button.setEnabled(false);
         theGameEngine.pauseGame();
 
         pause_image.setVisibility(View.VISIBLE);
         pause_menu.setVisibility(View.VISIBLE);
     }
 
-    public void enableFinalizer() {
-        finalizerEnabled = true;
-        finalizer.setEnabled(true);
-        finalizer.setVisibility(View.VISIBLE);
-    }
-
-    private void finalizeGame() {
-        ImageView explosion = (ImageView) getView().findViewById(R.id.animation);
-        TextView win1 = (TextView) getView().findViewById(R.id.youWin1);
-        TextView win2 = (TextView) getView().findViewById(R.id.youWin2);
-
-        win1.setVisibility(View.VISIBLE);
-        win2.setVisibility(View.VISIBLE);
-        explosion.setVisibility(View.VISIBLE);
-        explosion.setImageResource(R.drawable.transition_animation);
-        AnimationDrawable explosionTransition = (AnimationDrawable) explosion.getDrawable();
-        explosionTransition.start();
-
-        new Handler().postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                theGameEngine.stopGame();
-                ((ScaffoldActivity)getActivity()).gameOver();
-            }
-        }, 1000);
+    private void switchType() {
+        player.switchType(theGameEngine);
     }
 }

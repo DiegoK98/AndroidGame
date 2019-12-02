@@ -44,11 +44,10 @@
 
     <ImageView
         android:id="@+id/firebutton"
-        android:layout_width="300px"
-        android:layout_height="300px"
+        android:layout_width="96dp"
+        android:layout_height="64dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="30dp"
         android:layout_marginBottom="30dp"
         android:src="@drawable/shoot" />
 </RelativeLayout>

@@ -14,9 +14,10 @@ public class Bullet extends Sprite {
 
     public Sprite parent;
 
-    public Bullet(GameEngine gameEngine, int id){
+    public Bullet(GameEngine gameEngine, int id, int bulletType){
         super(gameEngine, id);
 
+        this.characterType = bulletType;
         speedFactor = gameEngine.pixelFactor * -300d / 1000d;
     }
 
@@ -87,9 +88,12 @@ public class Bullet extends Sprite {
             // Remove both from the game (and return them to their pools)
             removeObject(gameEngine);
             Asteroid a = (Asteroid) otherObject;
-            a.removeObject(gameEngine);
-            gameEngine.onGameEvent(GameEvent.AsteroidHit);
-            gameEngine.setScoreToAdd(10);
+
+            if(a.characterType != characterType) {
+                a.removeObject(gameEngine);
+                gameEngine.onGameEvent(GameEvent.AsteroidHit);
+                gameEngine.setScoreToAdd(10);
+            }
         }
         else if(otherObject instanceof SpaceShipPlayer && parent.getClass().equals(Asteroid.class)){
             removeObject(gameEngine);
