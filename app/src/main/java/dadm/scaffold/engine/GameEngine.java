@@ -102,6 +102,7 @@ public class GameEngine {
         if (theDrawThread != null) {
             theDrawThread.pauseGame();
         }
+        theInputController.onPause();
     }
 
     public void resumeGame() {
@@ -111,6 +112,7 @@ public class GameEngine {
         if (theDrawThread != null) {
             theDrawThread.resumeGame();
         }
+        theInputController.onResume();
     }
 
     public void addGameObject(GameObject gameObject) {

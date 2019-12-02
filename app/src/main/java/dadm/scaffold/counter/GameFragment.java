@@ -37,6 +37,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
 
     //Finalizer
     private Button finalizer;
+    private boolean finalizerEnabled;
 
     public GameFragment() {
     }
@@ -58,6 +59,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
         pause_image = view.findViewById(R.id.menu_image);
 
         finalizer = view.findViewById(R.id.btn_finalizer);
+        finalizerEnabled = false;
 
         //Pause menu buttons
         for(int i= 1; i< ((ViewGroup)pause_menu).getChildCount(); i++){
@@ -110,6 +112,8 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
                 pause_image.setVisibility(View.GONE);
                 theGameEngine.resumeGame();
                 pauseButton.setAlpha(1);
+                finalizer.setAlpha(1);
+                finalizer.setEnabled(finalizerEnabled);
                 break;
         }
     }
@@ -139,6 +143,8 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
 
     private void pauseGameAndShowPauseDialog() {
         pauseButton.setAlpha(0.4f);
+        finalizer.setAlpha(0.4f);
+        finalizer.setEnabled(false);
         theGameEngine.pauseGame();
 
         pause_image.setVisibility(View.VISIBLE);
@@ -146,6 +152,7 @@ public class GameFragment extends BaseFragment implements View.OnClickListener {
     }
 
     public void enableFinalizer() {
+        finalizerEnabled = true;
         finalizer.setEnabled(true);
         finalizer.setVisibility(View.VISIBLE);
     }

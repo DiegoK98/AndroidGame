@@ -42,7 +42,7 @@ public class Asteroid extends Sprite {
         /*rotationSpeed = angle*(180d / Math.PI)/250d; // They rotate 4 times their ange in a second.
         rotation = gameEngine.random.nextInt(360);*/
         initBulletPool(gameEngine);
-        shootTime = 1000;
+        shootTime = 500;
     }
 
 
@@ -115,7 +115,7 @@ public class Asteroid extends Sprite {
 
         if(shootTime <= 0 && (enemyType == 1 || enemyType == 3)){
             shootBullet(gameEngine, 4);
-            shootTime = 1000;
+            shootTime = 500;
         }
     }
 
