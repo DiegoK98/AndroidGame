@@ -26,8 +26,8 @@
 
     <ImageView
         android:id="@+id/bigCircle"
-        android:layout_width="400px"
-        android:layout_height="400px"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="10dp"
@@ -35,8 +35,8 @@
 
     <ImageView
         android:id="@+id/smallCircle"
-        android:layout_width="200px"
-        android:layout_height="200px"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="10dp"
